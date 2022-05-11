@@ -1,6 +1,6 @@
 {
-    "name": "example",
-    "short_name": "example",
+    "name": "flutterfire_ui_oauth_example",
+    "short_name": "flutterfire_ui_oauth_example",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

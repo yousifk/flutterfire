@@ -36,7 +36,7 @@ class OAuthFlow extends AuthFlow implements OAuthController {
 
       if (kIsWeb) {
         return await _signInWeb(provider);
-      } else if (platform == TargetPlatform.macOS) {
+      } else if (platform == TargetPlatform.macOS || platform == TargetPlatform.linux || platform == TargetPlatform.windows) {
         credential = await provider.desktopSignIn();
       } else {
         credential = await provider.signIn();

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(example LANGUAGES CXX)
+project(flutterfire_ui_oauth_example LANGUAGES CXX)
 
-set(BINARY_NAME "example")
+set(BINARY_NAME "flutterfire_ui_oauth_example")
 
 cmake_policy(SET CMP0063 NEW)
 

@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   desktop_webview_auth: ^0.0.7
-  firebase_auth: ^3.3.17
+  flutter_svg: ^1.0.3
 
 dev_dependencies:
   flutter_test:

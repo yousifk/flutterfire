@@ -1,4 +1,4 @@
-# example
+# flutterfire_ui_oauth_example
 
 A new Flutter project.
 
