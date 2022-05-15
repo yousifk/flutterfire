@@ -8,10 +8,8 @@ import 'package:desktop_webview_auth/google.dart';
 
 import 'package:flutterfire_ui/auth.dart';
 
-import '../../auth_flow.dart';
 import '../../widgets/internal/oauth_provider_button_style.dart';
-import '../oauth_providers.dart';
-import '../provider_resolvers.dart';
+import '../provider_icons.dart';
 
 import 'sign_out_mixin.dart' if (dart.library.html) 'sign_out_mixin_web.dart';
 

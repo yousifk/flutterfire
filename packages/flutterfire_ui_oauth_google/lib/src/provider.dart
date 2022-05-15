@@ -2,12 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart' hide OAuthProvider;
 import 'package:flutterfire_ui_oauth/flutterfire_ui_oauth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleProvider extends OAuthProvider {
+class GoogleProvider extends OAuthProvider with SignOutMixin {
+  @override
+  final providerId = 'google.com';
   final String clientId;
   final String redirectUri;
   final List<String> scopes;
 
-  late final provider = GoogleSignIn(scopes: scopes);
+  late final _provider = GoogleSignIn(scopes: scopes);
 
   @override
   final GoogleAuthProvider firebaseAuthProvider = GoogleAuthProvider();
@@ -31,7 +33,7 @@ class GoogleProvider extends OAuthProvider {
 
   @override
   Future<OAuthCredential> signIn() async {
-    final user = await provider.signIn();
+    final user = await _provider.signIn();
 
     if (user == null) {
       throw Exception('Auth failed');

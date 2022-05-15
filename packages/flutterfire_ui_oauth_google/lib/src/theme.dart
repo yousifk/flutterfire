@@ -15,6 +15,8 @@ const _iconSrc = ThemedIconSrc(
 );
 
 class GoogleProviderButtonStyle extends ThemedOAuthProviderButtonStyle {
+  const GoogleProviderButtonStyle();
+
   @override
   ThemedColor get backgroundColor => _backgroundColor;
 

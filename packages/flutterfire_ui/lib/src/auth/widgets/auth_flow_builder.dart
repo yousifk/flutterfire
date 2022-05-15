@@ -1,4 +1,3 @@
-import '../configs/default_provider_config_factory.dart';
 import '../configs/provider_configuration.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart'

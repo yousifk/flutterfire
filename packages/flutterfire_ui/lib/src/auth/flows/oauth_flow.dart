@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' hide OAuthProvider;
+import 'package:flutterfire_ui_oauth/flutterfire_ui_oauth.dart';
 import '../oauth/oauth_providers.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform, kIsWeb;
 
@@ -13,19 +14,26 @@ abstract class OAuthController extends AuthController {
 
 class OAuthFlow extends AuthFlow implements OAuthController {
   OAuthFlow({
-    required this.config,
+    required OAuthProviderConfiguration config,
     AuthAction? action,
     FirebaseAuth? auth,
-  }) : super(action: action, auth: auth, initialState: const Uninitialized());
+  }) : super(
+          action: action,
+          auth: auth,
+          initialState: const Uninitialized(),
+          config: config,
+        );
 
-  final OAuthProviderConfiguration config;
+  @override
+  OAuthProviderConfiguration get config =>
+      super.config as OAuthProviderConfiguration;
 
   @override
   Future<void> signInWithProvider(TargetPlatform platform) async {
-    OAuthProvider? provider = OAuthProviders.resolve(auth, config.providerType);
+    OAuthProvider? provider = OAuthProviders.resolve(auth, config.providerId);
 
     if (provider == null) {
-      provider = config.createProvider();
+      provider = config.provider;
       OAuthProviders.register(auth, provider);
     }
 
@@ -36,10 +44,12 @@ class OAuthFlow extends AuthFlow implements OAuthController {
 
       if (kIsWeb) {
         return await _signInWeb(provider);
-      } else if (platform == TargetPlatform.macOS || platform == TargetPlatform.linux || platform == TargetPlatform.windows) {
+      } else if (platform == TargetPlatform.macOS ||
+          platform == TargetPlatform.linux ||
+          platform == TargetPlatform.windows) {
         credential = await provider.desktopSignIn();
       } else {
-        credential = await provider.signIn();
+        credential = await provider.signIn(platform);
       }
 
       setCredential(credential);

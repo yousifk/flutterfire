@@ -1,6 +1,7 @@
 import 'package:flutterfire_ui/auth.dart';
 import 'package:flutter/widgets.dart';
-import 'package:firebase_auth/firebase_auth.dart' show AuthCredential, User;
+import 'package:firebase_auth/firebase_auth.dart'
+    show AuthCredential, User, UserCredential;
 
 abstract class AuthState {
   const AuthState();
@@ -26,7 +27,7 @@ class CredentialReceived extends AuthState {
 }
 
 class CredentialLinked extends AuthState {
-  final AuthCredential credential;
+  final UserCredential credential;
 
   CredentialLinked(this.credential);
 }

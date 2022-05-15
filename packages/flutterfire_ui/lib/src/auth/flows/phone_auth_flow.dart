@@ -46,9 +46,15 @@ class PhoneAuthFlow extends AuthFlow implements PhoneAuthController {
   final _smsCodeCompleter = Completer<String>();
 
   PhoneAuthFlow({
+    required PhoneProviderConfiguration config,
     FirebaseAuth? auth,
     AuthAction? action,
-  }) : super(auth: auth, initialState: AwaitingPhoneNumber(), action: action);
+  }) : super(
+          auth: auth,
+          initialState: AwaitingPhoneNumber(),
+          action: action,
+          config: config,
+        );
 
   @override
   Future<void> acceptPhoneNumber(String phoneNumber) async {

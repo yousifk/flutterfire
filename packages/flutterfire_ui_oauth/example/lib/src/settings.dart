@@ -5,6 +5,11 @@ enum DesignLibrary {
   material,
 }
 
+enum ButtonVariant {
+  icon,
+  full,
+}
+
 class SettingsChip extends StatelessWidget {
   final VoidCallback onTap;
   final String label;
@@ -25,7 +30,7 @@ class SettingsChip extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTapDown: (_) => onTap(),
         child: Container(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Text(
             label,
             style: TextStyle(color: isActive ? Colors.white : Colors.black),
@@ -43,11 +48,13 @@ class SettingsChip extends StatelessWidget {
 class Settings extends StatefulWidget {
   final DesignLibrary library;
   final Brightness brightness;
+  final ButtonVariant buttonVariant;
 
   final Widget Function(
     BuildContext context,
     DesignLibrary library,
     Brightness brightness,
+    ButtonVariant buttonVariant,
   ) builder;
 
   const Settings({
@@ -55,6 +62,7 @@ class Settings extends StatefulWidget {
     required this.builder,
     this.brightness = Brightness.light,
     this.library = DesignLibrary.material,
+    this.buttonVariant = ButtonVariant.full,
   }) : super(key: key);
 
   @override
@@ -64,6 +72,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   late DesignLibrary library = widget.library;
   late Brightness brightness = widget.brightness;
+  late ButtonVariant buttonVariant = widget.buttonVariant;
 
   VoidCallback setValue(Object value) {
     return () {
@@ -72,6 +81,8 @@ class _SettingsState extends State<Settings> {
           library = value;
         } else if (value is Brightness) {
           brightness = value;
+        } else if (value is ButtonVariant) {
+          buttonVariant = value;
         }
       });
     };
@@ -108,11 +119,23 @@ class _SettingsState extends State<Settings> {
                     label: 'Dark mode',
                     isActive: brightness == Brightness.dark,
                   ),
+                  SettingsChip(
+                    onTap: setValue(ButtonVariant.full),
+                    label: 'Full button',
+                    isActive: buttonVariant == ButtonVariant.full,
+                  ),
+                  SettingsChip(
+                    onTap: setValue(ButtonVariant.icon),
+                    label: 'Icon button',
+                    isActive: buttonVariant == ButtonVariant.icon,
+                  ),
                 ],
               ),
             ),
           ),
-          Expanded(child: widget.builder(context, library, brightness)),
+          Expanded(
+            child: widget.builder(context, library, brightness, buttonVariant),
+          ),
         ],
       ),
     );

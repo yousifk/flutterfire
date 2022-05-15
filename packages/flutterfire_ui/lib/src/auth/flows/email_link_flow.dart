@@ -19,18 +19,22 @@ abstract class EmailLinkFlowController extends AuthController {
 }
 
 class EmailLinkFlow extends AuthFlow implements EmailLinkFlowController {
-  final ActionCodeSettings actionCodeSettings;
   final FirebaseDynamicLinks? dynamicLinks;
 
   EmailLinkFlow({
+    required EmailLinkProviderConfiguration config,
     FirebaseAuth? auth,
     this.dynamicLinks,
-    required this.actionCodeSettings,
   }) : super(
           action: AuthAction.signIn,
           auth: auth,
           initialState: const Uninitialized(),
+          config: config,
         );
+
+  @override
+  EmailLinkProviderConfiguration get config =>
+      super.config as EmailLinkProviderConfiguration;
 
   FirebaseDynamicLinks get _links =>
       dynamicLinks ?? FirebaseDynamicLinks.instance;
@@ -42,7 +46,7 @@ class EmailLinkFlow extends AuthFlow implements EmailLinkFlowController {
     try {
       await auth.sendSignInLinkToEmail(
         email: email,
-        actionCodeSettings: actionCodeSettings,
+        actionCodeSettings: config.actionCodeSettings,
       );
 
       value = const AwaitingDynamicLink();

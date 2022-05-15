@@ -1,7 +1,6 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutterfire_ui/auth.dart';
-import 'package:flutterfire_ui/src/auth/auth_flow.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class EmailLinkProviderConfiguration extends ProviderConfiguration {
@@ -14,20 +13,14 @@ class EmailLinkProviderConfiguration extends ProviderConfiguration {
   });
 
   @override
-  AuthFlow createFlow(FirebaseAuth? auth, AuthAction? action) {
-    return EmailLinkFlow(
-      auth: auth,
-      actionCodeSettings: actionCodeSettings,
-      dynamicLinks: dynamicLinks,
-    );
+  String get providerId => 'email_link';
+
+  bool _isMobile(TargetPlatform platform) {
+    return platform == TargetPlatform.android || platform == TargetPlatform.iOS;
   }
 
   @override
   bool isSupportedPlatform(TargetPlatform platform) {
-    return !kIsWeb &&
-        (platform == TargetPlatform.android || platform == TargetPlatform.iOS);
+    return !kIsWeb && _isMobile(platform);
   }
-
-  @override
-  String get providerId => 'email_link';
 }

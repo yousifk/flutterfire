@@ -26,7 +26,7 @@ export 'src/auth/flows/email_flow.dart';
 export 'src/auth/flows/oauth_flow.dart' show OAuthController, OAuthFlow;
 
 export 'src/auth/oauth/social_icons.dart' show SocialIcons;
-export 'src/auth/oauth/provider_resolvers.dart' show providerIcon;
+export 'src/auth/oauth/provider_icons.dart' show providerIcon;
 export 'src/auth/oauth/oauth_providers.dart' show OAuthHelpers;
 export 'src/auth/oauth/providers/apple_provider.dart'
     show AppleProviderConfiguration;
@@ -138,9 +138,8 @@ class FlutterFireUIAuth {
     _configs[_app] = configs;
 
     configs.whereType<OAuthProviderConfiguration>().forEach((element) {
-      final provider = element.createProvider();
       final auth = FirebaseAuth.instanceFor(app: _app);
-      OAuthProviders.register(auth, provider);
+      OAuthProviders.register(auth, element.provider);
     });
   }
 

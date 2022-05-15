@@ -37,8 +37,14 @@ dependencies:
   firebase_core: ^1.16.0
   flutterfire_ui_oauth:
     path: ../
+  flutterfire_ui_oauth_apple:
+    path: ../../flutterfire_ui_oauth_apple
+  flutterfire_ui_oauth_facebook:
+    path: ../../flutterfire_ui_oauth_facebook
   flutterfire_ui_oauth_google:
     path: ../../flutterfire_ui_oauth_google
+  flutterfire_ui_oauth_twitter:
+    path: ../../flutterfire_ui_oauth_twitter
 
 dev_dependencies:
   flutter_test:

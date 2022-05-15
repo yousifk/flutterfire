@@ -6,11 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 import 'package:flutterfire_ui/auth.dart';
-import '../provider_resolvers.dart';
+import '../provider_icons.dart';
 import '../../widgets/internal/oauth_provider_button_style.dart';
-
-import '../../auth_flow.dart';
-import '../oauth_providers.dart';
 
 import 'sign_out_mixin.dart' if (dart.library.html) 'sign_out_mixin_web.dart';
 

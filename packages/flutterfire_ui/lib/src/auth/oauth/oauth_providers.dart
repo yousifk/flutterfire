@@ -1,16 +1,16 @@
-import 'package:desktop_webview_auth/desktop_webview_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide OAuthProvider;
 import 'package:flutter/widgets.dart';
+import 'package:flutterfire_ui_oauth/flutterfire_ui_oauth.dart';
 
 @immutable
 class ProviderKey {
   final FirebaseAuth auth;
-  final Type providerType;
+  final String providerId;
 
-  ProviderKey(this.auth, this.providerType);
+  ProviderKey(this.auth, this.providerId);
 
   @override
-  int get hashCode => hashValues(auth, providerType);
+  int get hashCode => hashValues(auth, providerId);
 
   @override
   bool operator ==(Object other) {
@@ -23,14 +23,14 @@ abstract class OAuthProviders {
 
   static void register(FirebaseAuth? auth, OAuthProvider provider) {
     final _auth = auth ?? FirebaseAuth.instance;
-    final key = ProviderKey(_auth, provider.runtimeType);
+    final key = ProviderKey(_auth, provider.providerId);
 
     _providers[key] = provider;
   }
 
-  static OAuthProvider? resolve(FirebaseAuth? auth, Type providerType) {
+  static OAuthProvider? resolve(FirebaseAuth? auth, String providerId) {
     final _auth = auth ?? FirebaseAuth.instance;
-    final key = ProviderKey(_auth, providerType);
+    final key = ProviderKey(_auth, providerId);
     return _providers[key];
   }
 
@@ -47,28 +47,6 @@ abstract class OAuthProviders {
     final futures = providersFor(_auth).map((e) => e.signOut());
     await Future.wait(futures);
   }
-}
-
-abstract class OAuthProvider {
-  Future<OAuthCredential> signIn();
-
-  ProviderArgs get desktopSignInArgs;
-  dynamic get firebaseAuthProvider;
-  OAuthCredential fromDesktopAuthResult(AuthResult result);
-
-  Future<OAuthCredential> desktopSignIn() async {
-    final result = await DesktopWebviewAuth.signIn(desktopSignInArgs);
-
-    if (result == null) {
-      throw Exception('Sign in failed');
-    }
-
-    final credential = fromDesktopAuthResult(result);
-    return credential;
-  }
-
-  Future<void> logOutProvider();
-  Future<void> signOut() async {}
 }
 
 extension OAuthHelpers on User {

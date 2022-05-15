@@ -8,7 +8,7 @@ import 'package:desktop_webview_auth/facebook.dart';
 import 'package:flutterfire_ui/auth.dart';
 
 import '../../widgets/internal/oauth_provider_button_style.dart';
-import '../provider_resolvers.dart';
+import '../provider_icons.dart';
 import '../../auth_flow.dart';
 import '../oauth_providers.dart';
 
@@ -75,6 +75,7 @@ class FacebookProviderConfiguration
     this.redirectUri,
   });
 
+  @override
   FacebookProvider get provider => FacebookProviderImpl(
         clientId: clientId,
         redirectUri: redirectUri ?? defaultRedirectUri,

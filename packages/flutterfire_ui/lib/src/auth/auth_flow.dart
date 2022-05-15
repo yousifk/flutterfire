@@ -5,20 +5,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterfire_ui/auth.dart';
 
 import 'auth_state.dart';
-import 'auth_controller.dart';
-
-class AuthCancelledException implements Exception {
-  AuthCancelledException([this.message = 'User has cancelled auth']);
-
-  final String message;
-}
 
 class AuthFlow extends ValueNotifier<AuthState> implements AuthController {
   @override
   final FirebaseAuth auth;
   final AuthState initialState;
+  final ProviderConfiguration config;
+
   AuthAction? _action;
   List<VoidCallback> _onDispose = [];
 
@@ -50,9 +46,10 @@ class AuthFlow extends ValueNotifier<AuthState> implements AuthController {
   }
 
   AuthFlow({
+    required this.initialState,
+    required this.config,
     FirebaseAuth? auth,
     AuthAction? action,
-    required this.initialState,
   })  : auth = auth ?? FirebaseAuth.instance,
         _action = action,
         super(initialState);
@@ -68,14 +65,15 @@ class AuthFlow extends ValueNotifier<AuthState> implements AuthController {
   }
 
   @override
-  Future<void> link(AuthCredential credential) async {
+  Future<UserCredential> link(AuthCredential credential) async {
     final user = auth.currentUser;
 
     if (user != null) {
       try {
-        await user.linkWithCredential(credential);
+        return await user.linkWithCredential(credential);
       } on Exception catch (err) {
         value = AuthFailed(err);
+        rethrow;
       }
     } else {
       throw Exception(
@@ -119,8 +117,8 @@ class AuthFlow extends ValueNotifier<AuthState> implements AuthController {
           break;
         case AuthAction.link:
           value = CredentialReceived(credential);
-          await link(credential);
-          finalState = CredentialLinked(credential);
+          final userCredential = await link(credential);
+          finalState = CredentialLinked(userCredential);
           break;
         default:
           throw Exception('$action is not supported by $runtimeType');

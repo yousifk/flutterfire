@@ -46,6 +46,7 @@ abstract class ThemedOAuthProviderButtonStyle {
       color: color.getValue(brightness),
       borderColor: borderColor.getValue(brightness),
       assetsPackage: assetsPackage,
+      iconBackgroundColor: iconBackgroundColor.getValue(brightness),
     );
   }
 }
@@ -56,6 +57,7 @@ class OAuthProviderButtonStyle {
   final Color color;
   final Color borderColor;
   final String assetsPackage;
+  final Color iconBackgroundColor;
 
   OAuthProviderButtonStyle({
     required this.iconSrc,
@@ -63,5 +65,6 @@ class OAuthProviderButtonStyle {
     required this.color,
     required this.borderColor,
     required this.assetsPackage,
+    required this.iconBackgroundColor,
   });
 }
