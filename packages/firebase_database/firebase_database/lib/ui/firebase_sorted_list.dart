@@ -95,7 +95,7 @@ class FirebaseSortedList extends ListBase<DataSnapshot>
 _snapshots.add(dataSnapshot);
 _snapshots.sort(comparator);`
 
-onChildAdded(_snapshots.indexOf(dataSnapshot), dataSnapshot); }
+onChildAdded(_snapshots.indexOf(dataSnapshot), dataSnapshot); 
   }
 
   void _onChildRemoved(DatabaseEvent event) {
